@@ -1,0 +1,147 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fff;
+    color: #222;
+}
+
+header {
+    padding: 25px;
+    text-align: center;
+    border-bottom: 2px solid #222;
+}
+
+main {
+    display: flex;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+    align-items: flex-start;
+}
+
+aside {
+    width: 280px;
+    flex-shrink: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+section {
+    flex: 1;
+    min-width: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#candy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+button {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    background: white;
+    text-align: left;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background: #fff0f0;
+    border-color: #d93636;
+}
+
+button.active {
+    background: #d93636;
+    color: white;
+    border-color: #d93636;
+}
+
+#hide-list,
+#show-list {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    background: white;
+    cursor: pointer;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.detail {
+    padding: 15px;
+    background: #f7f7f7;
+    border-radius: 8px;
+}
+
+.detail strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #777;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.detail span {
+    font-size: 16px;
+}
+
+main.list-hidden aside {
+    display: none;
+}
+
+main.list-hidden section {
+    width: 100%;
+}
+
+#show-list {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 650px) {
+    main {
+        flex-direction: column;
+    }
+
+    aside,
+    section {
+        width: 100%;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+a {
+    color: #d93636;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

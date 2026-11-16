@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Penn's Bot</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Penn's Bots</h1>
+      </header>
+
+      <canvas id="bg-canvas"></canvas>
+
+      <form id="chat-form">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Ask the Bot something..."
+          autocomplete="off"
+          required
+        />
+
+        <button type="submit">Send</button>
+      </form>
+
+      <div id="output"></div>
+    </main>
+
+    <script src="bot.js" type="module"></script>
+  </body>
+</html>

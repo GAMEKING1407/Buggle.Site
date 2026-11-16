@@ -1,0 +1,49 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #fff;
+  color: #222;
+}
+
+button {
+  border-style: solid;
+  border-color: #222;
+  border-radius: 1.125rem;
+}
+
+input {
+  border-style: solid;
+  border-radius: 1.125rem;
+  background-color: rgb(255, 255, 255);
+  border-color: #000;
+}
+
+.bot-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.bot-toggle button {
+  padding: 10px 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.bot-toggle button.active {
+  background: black;
+  color: white;
+  border-color: black;
+}
+
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: all;
+}

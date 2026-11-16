@@ -1,0 +1,68 @@
+{
+  "entries": [
+    {
+      "id": "one",
+      "name": "One",
+      "notation": "1",
+      "category": "Everyday numbers",
+      "description": "The starting point: a single thing.",
+      "comparison": "One object."
+    },
+    {
+      "id": "ten",
+      "name": "Ten",
+      "notation": "10",
+      "category": "Everyday numbers",
+      "description": "Ten individual units.",
+      "comparison": "A group of ten objects."
+    },
+    {
+      "id": "hundred",
+      "name": "One Hundred",
+      "notation": "100",
+      "category": "Everyday numbers",
+      "description": "Ten groups of ten.",
+      "comparison": "A hundred objects."
+    },
+    {
+      "id": "thousand",
+      "name": "One Thousand",
+      "notation": "1,000",
+      "category": "Everyday numbers",
+      "description": "One thousand units.",
+      "comparison": "Ten hundreds."
+    },
+    {
+      "id": "million",
+      "name": "One Million",
+      "notation": "1,000,000",
+      "category": "Large numbers",
+      "description": "A one followed by six zeroes.",
+      "comparison": "1,000,000."
+    },
+    {
+      "id": "billion",
+      "name": "One Billion",
+      "notation": "10^9",
+      "category": "Large numbers",
+      "description": "A one followed by nine zeroes.",
+      "comparison": "1,000 million."
+    },
+    {
+      "id": "trillion",
+      "name": "One Trillion",
+      "notation": "10^12",
+      "category": "Large numbers",
+      "description": "A one followed by twelve zeroes.",
+      "comparison": "1,000 billion."
+    },
+    {
+      "id": "quadrillion",
+      "name": "One Quadrillion",
+      "notation": "10^15",
+      "category": "Large numbers",
+      "description": "A one followed by fifteen zeroes.",
+      "comparison": "1,000 trillion."
+    }
+  ]
+}
