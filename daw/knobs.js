@@ -59,4 +59,3 @@ document.querySelectorAll(".knob").forEach((knob) => {
     input.dispatchEvent(new Event("input", { bubbles: true }));
   });
 });
-

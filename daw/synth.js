@@ -12,6 +12,110 @@ let reverb;
 let reverbWet;
 let masterCompressor;
 
+let analyser;
+const canvas = document.getElementById("visualizer");
+const canvasCtx = canvas?.getContext("2d");
+
+function initAudio() {
+  if (audioCtx) return;
+
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  masterInput = audioCtx.createGain();
+
+  distortion = audioCtx.createWaveShaper();
+  distortion.curve = makeDistortionCurve(Number(distortionSlider?.value || 0));
+  distortion.oversample = "4x";
+
+  filter = audioCtx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.value = Number(filterSlider?.value || 12000);
+  filter.Q.value = 2.0;
+
+  delay = audioCtx.createDelay(2.0);
+  delay.delayTime.value = 0.3;
+
+  delayFeedback = audioCtx.createGain();
+  delayFeedback.gain.value = 0.4;
+
+  delayWet = audioCtx.createGain();
+  delayWet.gain.value = Number(delaySlider?.value || 0);
+
+  reverb = audioCtx.createConvolver();
+  reverb.buffer = createReverbImpulse(audioCtx, 2.2, 2.5);
+
+  reverbWet = audioCtx.createGain();
+  reverbWet.gain.value = Number(reverbSlider?.value || 0);
+
+  masterCompressor = audioCtx.createDynamicsCompressor();
+
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 2048;
+
+  masterInput.connect(distortion);
+  distortion.connect(filter);
+
+  filter.connect(masterCompressor);
+
+  filter.connect(delay);
+  delay.connect(delayFeedback);
+  delayFeedback.connect(delay);
+  delay.connect(delayWet);
+  delayWet.connect(masterCompressor);
+
+  filter.connect(reverb);
+  reverb.connect(reverbWet);
+  reverbWet.connect(masterCompressor);
+
+  masterCompressor.connect(analyser);
+  analyser.connect(audioCtx.destination);
+}
+
+function drawVisualizer() {
+  requestAnimationFrame(drawVisualizer);
+  if (!canvas || !canvasCtx) return;
+
+  const width = canvas.width;
+  const height = canvas.height;
+
+  canvasCtx.fillStyle = "#111";
+  canvasCtx.fillRect(0, 0, width, height);
+
+  canvasCtx.lineWidth = 2;
+  canvasCtx.strokeStyle = "#fff000";
+  canvasCtx.beginPath();
+
+  if (!analyser) {
+    canvasCtx.moveTo(0, height / 2);
+    canvasCtx.lineTo(width, height / 2);
+    canvasCtx.stroke();
+    return;
+  }
+
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  analyser.getByteTimeDomainData(dataArray);
+
+  const sliceWidth = width / bufferLength;
+  let x = 0;
+
+  for (let i = 0; i < bufferLength; i++) {
+    const v = dataArray[i] / 128.0;
+    const y = (v * height) / 2;
+
+    if (i === 0) {
+      canvasCtx.moveTo(x, y);
+    } else {
+      canvasCtx.lineTo(x, y);
+    }
+    x += sliceWidth;
+  }
+
+  canvasCtx.lineTo(width, height / 2);
+  canvasCtx.stroke();
+}
+
+drawVisualizer();
+
 const pad = document.getElementById("keyboard");
 const waveform = document.getElementById("waveform");
 const frequencyDisplay = document.getElementById("frequency");
@@ -54,57 +158,6 @@ function createReverbImpulse(ctx, duration = 2.0, decay = 2.5) {
     }
   }
   return impulse;
-}
-
-function initAudio() {
-  if (audioCtx) return;
-
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-  masterInput = audioCtx.createGain();
-
-  distortion = audioCtx.createWaveShaper();
-  distortion.curve = makeDistortionCurve(Number(distortionSlider?.value || 0));
-  distortion.oversample = "4x";
-
-  filter = audioCtx.createBiquadFilter();
-  filter.type = "lowpass";
-  filter.frequency.value = Number(filterSlider?.value || 12000);
-  filter.Q.value = 2.0;
-
-  delay = audioCtx.createDelay(2.0);
-  delay.delayTime.value = 0.3;
-
-  delayFeedback = audioCtx.createGain();
-  delayFeedback.gain.value = 0.4;
-
-  delayWet = audioCtx.createGain();
-  delayWet.gain.value = Number(delaySlider?.value || 0);
-
-  reverb = audioCtx.createConvolver();
-  reverb.buffer = createReverbImpulse(audioCtx, 2.2, 2.5);
-
-  reverbWet = audioCtx.createGain();
-  reverbWet.gain.value = Number(reverbSlider?.value || 0);
-
-  masterCompressor = audioCtx.createDynamicsCompressor();
-
-  masterInput.connect(distortion);
-  distortion.connect(filter);
-
-  filter.connect(masterCompressor);
-
-  filter.connect(delay);
-  delay.connect(delayFeedback);
-  delayFeedback.connect(delay);
-  delay.connect(delayWet);
-  delayWet.connect(masterCompressor);
-
-  filter.connect(reverb);
-  reverb.connect(reverbWet);
-  reverbWet.connect(masterCompressor);
-
-  masterCompressor.connect(audioCtx.destination);
 }
 
 function startSound() {
