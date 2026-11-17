@@ -165,6 +165,9 @@ body {
   background-color: #ee7300;
   position: relative;
   transform: rotate(var(--angle, -135deg));
+  border-color: #000000;
+  border-style: solid;
+  border-width: 2px;
 }
 
 .knob-dial::after {
