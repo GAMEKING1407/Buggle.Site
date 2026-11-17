@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buggle Audio Playground</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="controls">
+    <label for="waveform">Waveform:</label>
+    <select id="waveform">
+      <option value="sine">Sine</option>
+      <option value="square">Square</option>
+      <option value="sawtooth" selected>Sawtooth</option>
+      <option value="triangle">Triangle</option>
+    </select>
+  </div>
+  
+  <div class="pad-container">
+    <div class="pad-info">
+      <span id="frequency">440 Hz</span>
+      <span id="volume-display">Volume: 50%</span>
+    </div>
+    
+    <div class="keyboard" id="keyboard"></div>
+  </div>
+  
+  <script src="synth.js"></script>
+</body>
+</html>
