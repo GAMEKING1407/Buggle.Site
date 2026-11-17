@@ -1,8 +1,8 @@
-const grid = document.getElementById("drum-grid");
-const playButton = document.getElementById("play");
-const stopButton = document.getElementById("stop");
-const clearButton = document.getElementById("clear");
-const bpmInput = document.getElementById("bpm");
+const drumGrid = document.getElementById("drum-grid");
+const drumPlay = document.getElementById("drum-play");
+const drumStop = document.getElementById("drum-stop");
+const drumClear = document.getElementById("drum-clear");
+const drumBpm = document.getElementById("drum-bpm");
 
 const instruments = [
     "Kick",
@@ -14,12 +14,11 @@ const instruments = [
 
 const patterns = instruments.map(() => Array(16).fill(false));
 
-let audioContext;
-let playing = false;
-let currentStep = 0;
-let timer;
+let drumPlaying = false;
+let drumCurrentStep = 0;
+let drumTimer;
 
-function createGrid() {
+function createDrumGrid() {
     instruments.forEach((instrument, row) => {
         const drumRow = document.createElement("div");
         drumRow.className = "drum-row";
@@ -32,120 +31,155 @@ function createGrid() {
 
         for (let step = 0; step < 16; step++) {
             const button = document.createElement("button");
+
             button.className = "step";
-            button.setAttribute("aria-label", `${instrument}, step ${step + 1}`);
+            button.setAttribute(
+                "aria-label",
+                `${instrument}, step ${step + 1}`
+            );
 
             button.addEventListener("click", () => {
                 patterns[row][step] = !patterns[row][step];
-                button.classList.toggle("active", patterns[row][step]);
+
+                button.classList.toggle(
+                    "active",
+                    patterns[row][step]
+                );
             });
 
             drumRow.append(button);
         }
 
-        grid.append(drumRow);
+        drumGrid.append(drumRow);
     });
 }
 
 function kick() {
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+    const oscillator = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const now = audioCtx.currentTime;
 
     oscillator.type = "sine";
-    oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
 
-    gain.gain.setValueAtTime(1, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    oscillator.frequency.setValueAtTime(150, now);
+    oscillator.frequency.exponentialRampToValueAtTime(0.01, now + 0.5);
+
+    gain.gain.setValueAtTime(1, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
 
     oscillator.connect(gain);
-    gain.connect(audioContext.destination);
+    gain.connect(audioCtx.destination);
 
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.5);
+    oscillator.start(now);
+    oscillator.stop(now + 0.5);
 }
 
 function snare() {
-    const bufferSize = audioContext.sampleRate * 0.2;
-    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+    const now = audioCtx.currentTime;
+    const bufferSize = audioCtx.sampleRate * 0.2;
+
+    const buffer = audioCtx.createBuffer(
+        1,
+        bufferSize,
+        audioCtx.sampleRate
+    );
+
     const data = buffer.getChannelData(0);
 
     for (let i = 0; i < bufferSize; i++) {
         data[i] = Math.random() * 2 - 1;
     }
 
-    const noise = audioContext.createBufferSource();
-    const filter = audioContext.createBiquadFilter();
-    const gain = audioContext.createGain();
+    const noise = audioCtx.createBufferSource();
+    const filter = audioCtx.createBiquadFilter();
+    const gain = audioCtx.createGain();
 
     noise.buffer = buffer;
+
     filter.type = "highpass";
     filter.frequency.value = 1000;
 
-    gain.gain.setValueAtTime(0.7, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.7, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
 
     noise.connect(filter);
     filter.connect(gain);
-    gain.connect(audioContext.destination);
+    gain.connect(audioCtx.destination);
 
-    noise.start();
+    noise.start(now);
+    noise.stop(now + 0.2);
 }
 
 function hat(open = false) {
-    const bufferSize = audioContext.sampleRate * 0.15;
-    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+    const now = audioCtx.currentTime;
+    const bufferSize = audioCtx.sampleRate * 0.15;
+
+    const buffer = audioCtx.createBuffer(
+        1,
+        bufferSize,
+        audioCtx.sampleRate
+    );
+
     const data = buffer.getChannelData(0);
 
     for (let i = 0; i < bufferSize; i++) {
         data[i] = Math.random() * 2 - 1;
     }
 
-    const noise = audioContext.createBufferSource();
-    const filter = audioContext.createBiquadFilter();
-    const gain = audioContext.createGain();
+    const noise = audioCtx.createBufferSource();
+    const filter = audioCtx.createBiquadFilter();
+    const gain = audioCtx.createGain();
 
     noise.buffer = buffer;
+
     filter.type = "highpass";
     filter.frequency.value = 7000;
 
     const duration = open ? 0.15 : 0.045;
 
-    gain.gain.setValueAtTime(0.35, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+    gain.gain.setValueAtTime(0.35, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
 
     noise.connect(filter);
     filter.connect(gain);
-    gain.connect(audioContext.destination);
+    gain.connect(audioCtx.destination);
 
-    noise.start();
-    noise.stop(audioContext.currentTime + duration);
+    noise.start(now);
+    noise.stop(now + duration);
 }
 
 function clap() {
+    const now = audioCtx.currentTime;
+
     for (let i = 0; i < 3; i++) {
-        const bufferSize = audioContext.sampleRate * 0.04;
-        const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+        const bufferSize = audioCtx.sampleRate * 0.04;
+
+        const buffer = audioCtx.createBuffer(
+            1,
+            bufferSize,
+            audioCtx.sampleRate
+        );
+
         const data = buffer.getChannelData(0);
 
         for (let j = 0; j < bufferSize; j++) {
             data[j] = Math.random() * 2 - 1;
         }
 
-        const noise = audioContext.createBufferSource();
-        const gain = audioContext.createGain();
+        const noise = audioCtx.createBufferSource();
+        const gain = audioCtx.createGain();
 
         noise.buffer = buffer;
         gain.gain.value = 0.5;
 
         noise.connect(gain);
-        gain.connect(audioContext.destination);
+        gain.connect(audioCtx.destination);
 
-        noise.start(audioContext.currentTime + i * 0.035);
+        noise.start(now + i * 0.035);
     }
 }
 
-const sounds = [
+const drumSounds = [
     kick,
     snare,
     () => hat(false),
@@ -153,73 +187,86 @@ const sounds = [
     clap
 ];
 
-function playStep() {
-    document.querySelectorAll(".step").forEach(button => {
+function playDrumStep() {
+    drumGrid.querySelectorAll(".step").forEach(button => {
         button.classList.remove("playing");
     });
 
     instruments.forEach((instrument, row) => {
-        const button = grid.children[row].children[currentStep + 1];
+        const button = drumGrid.children[row].children[drumCurrentStep + 1];
 
-        if (patterns[row][currentStep]) {
-            sounds[row]();
+        if (patterns[row][drumCurrentStep]) {
+            drumSounds[row]();
         }
 
         button.classList.add("playing");
     });
 
-    currentStep = (currentStep + 1) % 16;
+    drumCurrentStep = (drumCurrentStep + 1) % 16;
 }
 
-function getInterval() {
-    return 60000 / Number(bpmInput.value) / 4;
+function getDrumInterval() {
+    return 60000 / Number(drumBpm.value) / 4;
 }
 
-function start() {
-    if (playing) return;
+function startDrums() {
+    if (drumPlaying) return;
 
-    audioContext ??= new AudioContext();
-
-    if (audioContext.state === "suspended") {
-        audioContext.resume();
+    if (!audioCtx) {
+        audioCtx = new AudioContext();
     }
 
-    playing = true;
-    playButton.disabled = true;
+    if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+    }
 
-    playStep();
-    timer = setInterval(playStep, getInterval());
+    drumPlaying = true;
+    drumPlay.disabled = true;
+
+    playDrumStep();
+
+    drumTimer = setInterval(
+        playDrumStep,
+        getDrumInterval()
+    );
 }
 
-function stop() {
-    playing = false;
-    playButton.disabled = false;
+function stopDrums() {
+    drumPlaying = false;
+    drumPlay.disabled = false;
 
-    clearInterval(timer);
+    clearInterval(drumTimer);
 
-    document.querySelectorAll(".step").forEach(button => {
+    drumGrid.querySelectorAll(".step").forEach(button => {
         button.classList.remove("playing");
     });
 }
 
-playButton.addEventListener("click", start);
-stopButton.addEventListener("click", stop);
+drumPlay.addEventListener("click", startDrums);
+drumStop.addEventListener("click", stopDrums);
 
-clearButton.addEventListener("click", () => {
+drumClear.addEventListener("click", () => {
     patterns.forEach(pattern => pattern.fill(false));
 
-    document.querySelectorAll(".step").forEach(button => {
+    drumGrid.querySelectorAll(".step").forEach(button => {
         button.classList.remove("active");
     });
 });
 
-bpmInput.addEventListener("change", () => {
-    bpmInput.value = Math.max(40, Math.min(240, Number(bpmInput.value) || 120));
+drumBpm.addEventListener("change", () => {
+    drumBpm.value = Math.max(
+        40,
+        Math.min(240, Number(drumBpm.value) || 120)
+    );
 
-    if (playing) {
-        clearInterval(timer);
-        timer = setInterval(playStep, getInterval());
+    if (drumPlaying) {
+        clearInterval(drumTimer);
+
+        drumTimer = setInterval(
+            playDrumStep,
+            getDrumInterval()
+        );
     }
 });
 
-createGrid();
+createDrumGrid();

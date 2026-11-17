@@ -46,3 +46,77 @@ body {
 .keyboard:active::after {
     opacity: 1;
 }
+
+.drum-machine {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.drum-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.drum-controls button,
+.drum-controls input {
+    font: inherit;
+}
+
+.drum-controls button {
+    padding: 10px 18px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.drum-controls input {
+    width: 70px;
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 6px;
+}
+
+#drum-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-x: auto;
+}
+
+.drum-row {
+    display: grid;
+    grid-template-columns: 100px repeat(16, minmax(25px, 1fr));
+    gap: 5px;
+    align-items: center;
+    min-width: 550px;
+}
+
+.drum-name {
+    font-weight: bold;
+}
+
+.step {
+    aspect-ratio: 1;
+    padding: 0;
+    border: 1px solid black;
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.step.active {
+    background: #ff8c42;
+}
+
+.step.playing {
+    outline: 2px solid black;
+    outline-offset: 1px;
+}
+
+.step.active.playing {
+    background: #ffe600;
+}
