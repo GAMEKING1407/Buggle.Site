@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+.pnp.*
+.yarn/*
+
+# Environment variables
+.env
+.env*
+!.env.example
+
+# Build outputs and cache
+dist/
+build/
+.next/
+out/
+.cache/
+.npm
+.eslintcache
+
+# Logs and runtime data
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.pid
+*.seed
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
