@@ -23,5 +23,10 @@
         "name": "Crystal Louisiana Hot Sauce",
         "shu": "4000",
         "type": "sauce"
+    }, 
+    {
+        "name": "Dawson's Original Hot Sauce",
+        "shu": "82000",
+        "type": "sauce"
     }
 ]

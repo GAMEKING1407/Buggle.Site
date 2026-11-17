@@ -1,15 +1,12 @@
-import items from 'hot.json' with { type: 'json' };
+import items from './hot.json' with { type: 'json' };
 
-const hotSection = document.getElementById('hot')
-hotSection.innerHTML = "";
+const hotSection = document.getElementById('hot-container');
 
-items.forEach(item => {
-    hotSection.innerHTML += `
-    <section class="hot" class=hot-${item.type}>
-
+const htmlContent = items.map(item => `
+  <section class="hot hot-${item.type}">
     <h3>${item.name}</h3>
+    <p id="shu">SHU: ${item.shu}</p>
+  </section>
+`).join('');
 
-    <p> SHU: ${item.shu} </p>a
-    </section>
-    `
-});
+hotSection.innerHTML = htmlContent;
