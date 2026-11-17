@@ -26,6 +26,24 @@
     <div class="keyboard" id="keyboard"></div>
   </div>
   
+  <section class="drum-machine">
+    <h2>Drum Machine</h2>
+    
+    <div class="drum-controls">
+      <button id="drum-play">Play</button>
+      <button id="drum-stop">Stop</button>
+      <button id="drum-clear">Clear</button>
+      
+      <label>
+        BPM
+        <input id="drum-bpm" type="number" value="120" min="40" max="240">
+      </label>
+    </div>
+    
+    <div id="drum-grid"></div>
+  </section>
+
+  <script src="drums.js"></script>
   <script src="synth.js"></script>
 </body>
 </html>
