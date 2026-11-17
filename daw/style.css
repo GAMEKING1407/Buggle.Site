@@ -1,0 +1,194 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: transparent;
+}
+
+.pad-container {
+  width: 100%;
+}
+
+.keyboard {
+  border: 0.125rem solid #000000;
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 350px;
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  cursor: crosshair;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    90deg,
+    red 0%,
+    orangered 25%,
+    orange 40%,
+    yellow 65%,
+    limegreen 100%
+  );
+}
+
+.keyboard::after {
+  content: "";
+  position: absolute;
+  left: var(--mouse-x, 50%);
+  top: var(--mouse-y, 50%);
+  width: 35px;
+  height: 35px;
+
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.keyboard:active::after {
+  opacity: 1;
+}
+
+.drum-machine {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.drum-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.drum-controls button,
+.drum-controls input {
+  font: inherit;
+}
+
+.drum-controls button {
+  padding: 10px 18px;
+  border: 1px solid black;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.drum-controls input {
+  width: 70px;
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+
+#drum-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: auto;
+}
+
+.drum-row {
+  display: grid;
+  grid-template-columns: 100px repeat(16, minmax(25px, 1fr));
+  gap: 5px;
+  align-items: center;
+  min-width: 550px;
+}
+
+.drum-name {
+  font-weight: bold;
+}
+
+.step {
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.step.active {
+  background: #ff8c42;
+}
+
+.step.playing {
+  outline: 2px solid black;
+  outline-offset: 1px;
+}
+
+.step.active.playing {
+  background: #ffe600;
+}
+.effects-rack {
+  display: flex;
+  gap: 24px;
+  padding: 20px;
+  border-radius: 12px;
+  font-family: system-ui, sans-serif;
+  color: #e2e8f0;
+  user-select: none;
+}
+
+.knob-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.knob {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+.knob input[type="range"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.knob-dial {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #ee7300;
+  position: relative;
+  transform: rotate(var(--angle, -135deg));
+}
+
+.knob-dial::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 12px;
+  background: #000000;
+  border-radius: 2px;
+}
+
+.knob-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #0f0f0f;
+}
+
+.knob-value {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: #000000;
+}

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buggle Audio Playground</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="controls">
+      <label for="waveform">Waveform:</label>
+      <select id="waveform">
+        <option value="sine">Sine</option>
+        <option value="square">Square</option>
+        <option value="sawtooth" selected>Sawtooth</option>
+        <option value="triangle">Triangle</option>
+      </select>
+    </div>
+    <div class="effects-rack">
+      <div class="knob-control">
+        <div class="knob" data-unit="Hz">
+          <input
+            id="filter-cutoff"
+            type="range"
+            min="100"
+            max="12000"
+            value="12000"
+            step="10"
+          />
+          <div class="knob-dial"></div>
+        </div>
+        <span class="knob-label">Filter</span>
+        <span class="knob-value">12000 Hz</span>
+      </div>
+
+      <div class="knob-control">
+        <div class="knob" data-unit="">
+          <input
+            id="distortion-amount"
+            type="range"
+            min="0"
+            max="150"
+            value="0"
+            step="1"
+          />
+          <div class="knob-dial"></div>
+        </div>
+        <span class="knob-label">Distortion</span>
+        <span class="knob-value">0</span>
+      </div>
+
+      <div class="knob-control">
+        <div class="knob" data-unit="%">
+          <input
+            id="delay-mix"
+            type="range"
+            min="0"
+            max="0.8"
+            value="0"
+            step="0.01"
+          />
+          <div class="knob-dial"></div>
+        </div>
+        <span class="knob-label">Delay</span>
+        <span class="knob-value">0%</span>
+      </div>
+
+      <div class="knob-control">
+        <div class="knob" data-unit="%">
+          <input
+            id="reverb-mix"
+            type="range"
+            min="0"
+            max="1"
+            value="0"
+            step="0.01"
+          />
+          <div class="knob-dial"></div>
+        </div>
+        <span class="knob-label">Reverb</span>
+        <span class="knob-value">0%</span>
+      </div>
+    </div>
+
+    <div class="pad-container">
+      <div class="pad-info">
+        <span id="frequency">440 Hz</span>
+        <span id="volume-display">Volume: 50%</span>
+      </div>
+
+      <div class="keyboard" id="keyboard"></div>
+    </div>
+
+    <section class="drum-machine">
+      <h2>Drum Machine</h2>
+
+      <div class="drum-controls">
+        <button id="drum-play">Play</button>
+        <button id="drum-stop">Stop</button>
+        <button id="drum-clear">Clear</button>
+
+        <label>
+          BPM
+          <input id="drum-bpm" type="number" value="120" min="40" max="240" />
+        </label>
+      </div>
+
+      <div id="drum-grid"></div>
+    </section>
+
+    <section id="node-space"></section>
+
+    <script src="knobs.js"></script>
+    <script src="drums.js"></script>
+    <script src="synth.js"></script>
+  </body>
+</html>
