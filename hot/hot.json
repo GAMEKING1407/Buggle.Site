@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Frank's Red Hot",
+        "shu": "450",
+        "type": "sauce"
+    },
+    {
+        "name": "Cholula",
+        "shu": "1000-2000",
+        "type": "sauce"
+    },
+    {
+        "name": "Huy Fong Siracha",
+        "shu": "1000-2200",
+        "type": "sauce"
+    },
+    {
+        "name": "Tabasco Original Red",
+        "shu": "2500-5000",
+        "type": "sauce"
+    },
+    {
+        "name": "Crystal Louisiana Hot Sauce",
+        "shu": "4000",
+        "type": "sauce"
+    }
+]
